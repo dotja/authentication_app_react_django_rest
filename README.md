@@ -14,5 +14,5 @@ pip install django-cors-headers
 ```
 npm install axios
 npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
+
 ```
