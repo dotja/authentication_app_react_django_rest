@@ -13,6 +13,7 @@ pip install django-cors-headers
 * frontend
 ```
 npm install axios
+npm install react-router-dom
 npm install -D tailwindcss postcss autoprefixer
 
 ```
