@@ -13,5 +13,6 @@ pip install django-cors-headers
 * frontend
 ```
 npm install axios
-npm install react-bootstrap bootstrap
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
 ```
