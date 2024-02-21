@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { client }  from './Url'
-
-const Registration = ({ currentUser }) => {
+import { UserContext } from './App'
+import { Navigate } from 'react-router-dom';
+ 
+const Registration = () => {
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [currentUser, setCurrentUser] = useContext(UserContext);
 
     function submitRegistration(e) {
         e.preventDefault();
@@ -19,19 +22,11 @@ const Registration = ({ currentUser }) => {
                   username: username,
                   password: password
                 }
-              ).then(function(res) {
-                client.post(
-                  "/login",
-                  {
-                    email: email,
-                    password: password
-                  }
-                ).then(function(res) {
-                  // currentUser = true;
-                });
+              ).then(() => {
+                <Navigate to='/login' />
               });
         } catch (error) {
-            console.log(error)
+            console.log(error.response.data)
         }
       }
 

@@ -1,8 +1,12 @@
 import React from 'react'
+import Navbar from './Navbar'
 
 const Explore = () => {
   return (
-    <div>Explore</div>
+    <>
+      <div>Explore Bitch</div>
+    </>
+   
   )
 }
 

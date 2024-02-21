@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom'
 import  Navbar from './Navbar'
@@ -8,6 +8,8 @@ import Login from './Login';
 import Registration from './Registration';
 import Explore from './Explore';
 
+export const UserContext = createContext();
+
 function App() {
 
   const [currentUser, setCurrentUser] = useState();
@@ -15,44 +17,28 @@ function App() {
   useEffect(() => {
     client.get("/user")
     .then(function(res) {
+      console.log(res.data)
       setCurrentUser(true);
     })
     .catch(function(error) {
+      console.log(error)
       setCurrentUser(false);
     });
   }, []);
 
-  function submitLogout(e) {
-    e.preventDefault();
-    client.post(
-      "/logout",
-      {withCredentials: true}
-    ).then(function(res) {
-      setCurrentUser(false);
-    });
-  }
 
-  // if (currentUser) {
-  //   return (
-  //     <div>
-
-  //       <NavBar isLoggedIn={currentUser}/>
-  //         <div className="center">
-  //           <h2>You're logged in!</h2>
-  //         </div>
-  //       </div>
-  //   );
-  // }
   return (
     <div className='bg-black-2 h-lvh'>
-      <Routes>
-        <Route path='/' element={<Navbar  isLoggedIn={currentUser}/>}>
-          <Route index element={<Home/>}/>
-          <Route path='/signup' element={<Registration currentUser={currentUser}/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/explore' element={<Explore/>}/>
-        </Route>
-      </Routes>
+      <UserContext.Provider value={[currentUser, setCurrentUser]}>
+        <Routes>
+          <Route path='/' element={<Navbar/>}>
+            <Route index element={<Home/>}/>
+            <Route path='/signup' element={<Registration/>}/>
+            <Route path='/login' element={<Login />}/>
+            <Route path='/explore' element={<Explore/>}/>
+          </Route>
+        </Routes> 
+      </UserContext.Provider>
     </div>
   );
 }

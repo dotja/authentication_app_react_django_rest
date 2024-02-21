@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, Navigate, Outlet } from 'react-router-dom'
 import Logo  from '/lucaren-logo.svg'
+import { UserContext } from './App'
+import { client } from './Url'
 
-const Navbar = ( {isLoggedIn} ) => {
+const Navbar = () => {
 
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+
+    function submitLogout(e) {
+        e.preventDefault();
+        client.post(
+          "/logout",
+          {withCredentials: true}
+        ).then(function(res) {
+          setCurrentUser(false);
+        });
+      }
 
   return (
     <>
@@ -26,10 +39,10 @@ const Navbar = ( {isLoggedIn} ) => {
             </ul>
         </div>
         {
-            isLoggedIn ? (
-                <button>
-                    <Link to='/'>Log out</Link>
-                </button>
+            currentUser ? (
+                <form onSubmit={submitLogout}>
+                    <button type='submit'>Log out</button>
+                </form>
             ) : (
                 <div className='grid grid-cols-2 gap-4'>
                     <button>

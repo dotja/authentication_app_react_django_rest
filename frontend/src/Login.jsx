@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { client }  from './Url'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { Navigate } from 'react-router-dom';
+
+import { UserContext } from './App';
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+
 
     function submitLogin(e) {
         e.preventDefault();
@@ -19,6 +24,14 @@ const Login = () => {
         ).then(function(res) {
           setCurrentUser(true);
         });
+      }
+
+      if(currentUser){
+        return(
+          <>
+            <Navigate to='/explore' />
+          </>
+        )
       }
   return (
     <div className="center">
