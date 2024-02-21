@@ -8,6 +8,7 @@ Authentication app using React and Django REST framework with session authentica
 ```
 pip install djangorestframework
 pip install django-cors-headers
+pip install mysqlclient
 ```
 
 * frontend
