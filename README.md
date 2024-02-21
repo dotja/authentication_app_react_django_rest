@@ -1,4 +1,4 @@
-# React/DjangoRF Authentication App
+# Lucaren: React-Django Web Application  
 
 Authentication app using React and Django REST framework with session authentication.
 
