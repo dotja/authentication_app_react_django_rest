@@ -18,12 +18,13 @@ class UserRegister(APIView):
 			serializer = UserRegisterSerializer(data=clean_data)
 			if serializer.is_valid():
 				user = serializer.create(clean_data)
+				user.save()
 				return Response(serializer.data, status=status.HTTP_201_CREATED)
 			else:
 				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 		except ValidationError as e:
-			error_message = e.detail[0] if isinstance(e.detail, list) else e.detail
-			return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+			error_message = e.message if hasattr(e, 'message') else str(e)
+			return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
 
 # class UserLogin(APIView):
 # 	permission_classes = (permissions.AllowAny,)

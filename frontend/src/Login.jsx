@@ -34,7 +34,8 @@ const Login = () => {
         )
       }
   return (
-    <div className="center">
+    <>
+      <div className="center">
     <Form onSubmit={e => submitLogin(e)}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
@@ -52,6 +53,7 @@ const Login = () => {
       </Button>
     </Form>
   </div>
+    </>
   )
 }
 

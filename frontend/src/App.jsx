@@ -12,7 +12,7 @@ export const UserContext = createContext();
 
 function App() {
 
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(false);
 
   useEffect(() => {
     client.get("/user")
@@ -21,14 +21,14 @@ function App() {
       setCurrentUser(true);
     })
     .catch(function(error) {
-      console.log(error)
+      console.log(error.response.data)
       setCurrentUser(false);
     });
   }, []);
 
 
   return (
-    <div className='bg-black-2 h-lvh'>
+    <div className='w-full bg-black-2'>
       <UserContext.Provider value={[currentUser, setCurrentUser]}>
         <Routes>
           <Route path='/' element={<Navbar/>}>

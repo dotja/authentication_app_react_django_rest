@@ -20,13 +20,12 @@ const Navbar = () => {
 
   return (
     <>
-    <div className='flex flex-row flex-nowrap items-center justify-center justify-between
-    bg-black text-white w-screen m-0 px-4 py-2'>
+    <div className='flex flex-row items-center justify-between w-full px-4 py-2 m-0 text-white bg-black flex-nowrap lg:max-w-screen'>
         <div>
             <img src={Logo} alt="Lucaren logo" />
         </div>
         <div>
-            <ul className='grid  grid-cols-3 gap-4 content-start p-0 m-0'>
+            <ul className='grid content-start grid-cols-3 gap-4 p-0 m-0'>
                 <li>
                     <Link to='/' className='no-underline hover:text-amber-300 text-slate-100'>Home</Link>
                 </li>
@@ -48,8 +47,8 @@ const Navbar = () => {
                     <button>
                         <Link to='/login' className='no-underline text-slate-100 hover:text-yellow'>Sign In</Link> 
                     </button>
-                    <button className='bg-yellow lg:px-4 md:px-2 py-2 rounded hover:bg-amber-300 shadow-lg'>
-                        <Link to='/signup' className='no-underline text-black'>Sign Up</Link> 
+                    <button className='py-2 rounded shadow-lg bg-yellow lg:px-4 md:px-2 hover:bg-amber-300'>
+                        <Link to='/signup' className='text-black no-underline'>Sign Up</Link> 
                     </button>
                 </div>
             )

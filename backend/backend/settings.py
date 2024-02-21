@@ -28,11 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost',
-#     'http://127.0.0.1',
-#     'http://0.0.0.0',
-# ]
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
@@ -89,8 +84,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'lucaren',      #create a database in your mysql named "lucaren"
+        'USER': 'lucaren',       #Sa inyuha basin root ang username
+        'PASSWORD': '',          #no password akoa
+        'HOST': 'localhost',
+        'PORT': '3307',          # Sa inyuha basin 3306
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
