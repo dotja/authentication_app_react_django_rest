@@ -1,9 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, { useState } from 'react'
 import { client }  from './Url'
-import { UserContext } from './App'
-import { Navigate } from 'react-router-dom';
 import email_icon from '/email_icon.svg';
 import username_icon from '/username_icon.svg';
 import password_icon from '/password_icon.svg';
