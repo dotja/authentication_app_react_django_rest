@@ -4,7 +4,7 @@ import Navbar from './Navbar'
 const Explore = () => {
   return (
     <>
-      <div>Explore Bitch</div>
+      <div className='h-screen'>Explore Bitch</div>
     </>
    
   )

@@ -15,6 +15,7 @@ export default {
       colors: {
         'yellow': '#FFE100',
         'black-2': '#141414', // secondary black
+        'custom-gray': '#4F4F4F',
       },
     },
   },

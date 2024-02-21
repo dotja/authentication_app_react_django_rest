@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, Navigate, Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import Logo  from '/lucaren-logo.svg'
 import { UserContext } from './App'
 import { client } from './Url'
@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <>
-    <div className='flex flex-row items-center justify-between w-full px-4 py-2 m-0 text-white bg-black flex-nowrap lg:max-w-screen'>
+    <div className='flex flex-row items-center justify-between px-4 py-2 m-0 text-white bg-black flex-nowrap lg:max-w-screen'>
         <div>
             <img src={Logo} alt="Lucaren logo" />
         </div>

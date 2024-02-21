@@ -28,7 +28,7 @@ function App() {
 
 
   return (
-    <div className='w-full bg-black-2'>
+    <div className='w-full h-full bg-black-2'>
       <UserContext.Provider value={[currentUser, setCurrentUser]}>
         <Routes>
           <Route path='/' element={<Navbar/>}>
