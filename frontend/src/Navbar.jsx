@@ -3,6 +3,8 @@ import { Link, Outlet } from 'react-router-dom'
 import Logo  from '/lucaren-logo.svg'
 import { UserContext } from './App'
 import { client } from './Url'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = () => {
 
@@ -40,6 +42,7 @@ const Navbar = () => {
         {
             currentUser ? (
                 <form onSubmit={submitLogout}>
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
                     <button type='submit'>Log out</button>
                 </form>
             ) : (

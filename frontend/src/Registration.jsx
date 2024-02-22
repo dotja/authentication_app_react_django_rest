@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { client }  from './Url'
-import email_icon from '/email_icon.svg';
-import username_icon from '/username_icon.svg';
-import password_icon from '/password_icon.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faEnvelope, faLock} from '@fortawesome/free-solid-svg-icons'
 
 
 const Registration = () => {
@@ -12,8 +11,6 @@ const Registration = () => {
     const [password, setPassword] = useState('');
     const [toast, setToast] = useState('');
     const [isError, setIsError] = useState(false);
-    
-    // const [currentUser, setCurrentUser] = useContext(UserContext);
 
     function submitRegistration(e) {
         e.preventDefault();
@@ -32,9 +29,6 @@ const Registration = () => {
                   const successToast = "Successfully created!";
                   handleToast(successToast);
                   console.log(successToast);
-                  email = '';
-                  username = '';
-                  password = '';
               
                 }
             
@@ -67,8 +61,9 @@ const Registration = () => {
                   <form className='grid gap-4' onSubmit={e => submitRegistration(e)}>
                     {/* Email Field */}
                    <div className='w-full lg:rounded rounded-sm bg-black-2 flex flex-row relative'>
-                      <img className='absolute top-[18px] left-[12px]' src={email_icon}/>
-                      <input className=' text-sm pl-10 py-3 placeholder-custom-gray bg-inherit w-full border-none rounded-sm text-custom-gray' 
+                      <FontAwesomeIcon icon={faEnvelope} className='absolute top-[14px] left-[12px] text-custom-gray'/>
+                      <input 
+                        className=' text-sm pl-10 py-3 placeholder-custom-gray bg-inherit w-full border-none rounded-sm text-custom-gray focus:outline-yellow focus:outline-none focus:outline-[1px]' 
                         type='email' 
                         name='email'
                         value={email}
@@ -77,8 +72,9 @@ const Registration = () => {
                    </div>
                    {/* Username Field */}
                    <div className='w-full lg:rounded rounded-sm bg-black-2 flex flex-row relative'>
-                      <img className='absolute top-[18px] left-[12px]' src={username_icon}/>
-                      <input className=' text-sm pl-10 py-3 placeholder-custom-gray bg-inherit w-full border-none rounded-sm text-custom-gray' 
+                      <FontAwesomeIcon icon={faUser} className='absolute top-[14px] left-[12px] text-custom-gray'/>
+                      <input 
+                        className=' text-sm pl-10 py-3 placeholder-custom-gray bg-inherit w-full border-none rounded-sm text-custom-gray focus:outline-yellow focus:outline-none focus:outline-[1px]' 
                         type='text' 
                         name='email'
                         value={username}
@@ -87,15 +83,16 @@ const Registration = () => {
                    </div>
                    {/* Password Field */}
                    <div className='w-full lg:rounded rounded-sm bg-black-2 flex flex-row relative'>
-                      <img className='absolute top-[18px] left-[12px]' src={password_icon}/>
-                      <input className=' text-sm pl-10 py-3 placeholder-custom-gray bg-inherit w-full border-none rounded-sm text-custom-gray' 
+                      <FontAwesomeIcon icon={faLock} className='absolute top-[14px] left-[12px] text-custom-gray'/>
+                      <input 
+                        className=' text-sm pl-10 py-3 placeholder-custom-gray bg-inherit w-full border-none rounded-sm text-custom-gray focus:outline-yellow focus:outline-none focus:outline-[1px]' 
                         type='password' 
                         name='email' 
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         placeholder='Password'/>
                    </div>
-                   <button className='w-full py-2 bg-yellow text-white' type='submit'>Sign Up</button>
+                   <button className='w-full py-2 hover:bg-yellow text-white mt-4 hover:text-black border border-yellow rounded' type='submit'>Sign Up</button>
                   </form>
                 </div>            
             </div>    
