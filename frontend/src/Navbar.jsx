@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
     <>
-    <div className='flex flex-row items-center justify-between px-4 py-2 m-0 text-white bg-black flex-nowrap lg:max-w-screen'>
+    <div className='flex flex-row items-center justify-between px-8 py-2 m-0 text-white bg-black flex-nowrap lg:max-w-screen'>
         <div>
             <img src={Logo} alt="Lucaren logo" />
         </div>
@@ -42,8 +42,12 @@ const Navbar = () => {
         {
             currentUser ? (
                 <form onSubmit={submitLogout}>
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                    <button type='submit'>Log out</button>
+                    <div className='px-6'>                   
+                        <button type='submit' className='hover:text-yellow flex items-center justify-center'>
+                            <FontAwesomeIcon icon={faArrowRightFromBracket} className='hover:text-yellow mr-2'/>
+                            Log out
+                        </button>
+                    </div>
                 </form>
             ) : (
                 <div className='grid grid-cols-2 gap-4'>

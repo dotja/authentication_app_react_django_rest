@@ -26,40 +26,27 @@ class UserRegister(APIView):
 			error_message = e.message if hasattr(e, 'message') else str(e)
 			return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
 
-# class UserLogin(APIView):
-# 	permission_classes = (permissions.AllowAny,)
-# 	authentication_classes = (SessionAuthentication,)
-	
-# 	def post(self, request):
-# 		data = request.data
-# 		assert validate_email(data)
-# 		assert validate_password(data)
-# 		serializer = UserLoginSerializer(data=data)
-# 		if serializer.is_valid(raise_exception=True):
-# 			user = serializer.check_user(data)
-# 			login(request, user)
-# 			return Response(serializer.data, status=status.HTTP_200_OK)
-
 class UserLogin(APIView):
-    permission_classes = (permissions.AllowAny,)
-    authentication_classes = (SessionAuthentication,)
+	permission_classes = (permissions.AllowAny,)
+	authentication_classes = (SessionAuthentication,)
 
-    def post(self, request):
-        try:
-            data = request.data
-            clean_data = {
-                'email': data.get('email', '').strip(),
-                'password': data.get('password', '').strip()
-            }
-            serializer = UserLoginSerializer(data=clean_data)
-            if serializer.is_valid():
-                user = serializer.check_user(clean_data)
-                login(request, user)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except ValidationError as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+	def post(self, request):
+		try:
+			data = request.data
+			clean_data = {
+				'email': data.get('email', '').strip(),
+				'password': data.get('password', '').strip()
+			}
+			serializer = UserLoginSerializer(data=clean_data)
+			if serializer.is_valid():
+				user = serializer.check_user(clean_data)
+				login(request, user)
+				return Response(serializer.data, status=status.HTTP_200_OK)
+			else:
+				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		except ValidationError as e:
+			error_message = e.message if hasattr(e, 'message') else str(e)
+			return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserLogout(APIView):

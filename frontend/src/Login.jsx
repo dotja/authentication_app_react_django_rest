@@ -10,20 +10,34 @@ const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isError, setIsError] = useState(false);
+    const [toast, setToast] = useState('');
     const [currentUser, setCurrentUser] = useContext(UserContext);
 
 
     function submitLogin(e) {
         e.preventDefault();
-        client.post(
-          "/login",
-          {
-            email: email,
-            password: password
-          }
-        ).then(function(res) {
-          setCurrentUser(true);
-        });
+        try {
+          client.post(
+            "/login",
+            {
+              email: email,
+              password: password
+            }
+          ).then(function(res) {
+
+            setCurrentUser(true);
+          }).catch((error) => {
+            console.error(error.response.data);
+            if(error.response.data && error.response){
+              const invalidToast = error.response.data; 
+              handleToast(invalidToast);
+              setIsError(true);
+            } 
+          });
+        } catch (error) {
+          console.error("An unexpected error occured during the HTTP request.", error);
+        }
       }
 
       if(currentUser){
@@ -33,6 +47,9 @@ const Login = () => {
           </>
         )
       }
+      function handleToast(toast){
+        setToast(toast);
+      }
   return (
     <>
      <div className='flex items-center justify-center h-screen w-full'>
@@ -41,7 +58,9 @@ const Login = () => {
                   <div className='text-xl leading-tight tracking-tight text-white pb-4'>
                       Sign In
                   </div>
-                  {/* <span id='span_toast' className={`text-[12px] w-full py-1  ${isError ? 'bg-red-600': 'bg-green-600'}  text-center rounded-1 text-white ${toast ? '' : 'hidden'}`}>{toast}</span> */}
+                  <span id='span_toast' className={`text-[12px] w-full py-1 ${isError ? 'border-red-600': 'hidden'}  text-center rounded border text-red-600 ${toast ? '' : 'hidden'}`}>
+                    {toast}
+                  </span>
                   
                   <form className='grid gap-4' onSubmit={e => submitLogin(e)}>
                     {/* Email Field */}

@@ -26,10 +26,12 @@ const Registration = () => {
           
                 if(response.status === 201){
                   console.log(response.data);
-                  const successToast = "Successfully created!";
+                  const successToast = "Successfully created your account!";
                   handleToast(successToast);
                   console.log(successToast);
-              
+                  setEmail('');
+                  setPassword('');
+                  setUsername('');
                 }
             
               }).catch((error) => {
@@ -47,7 +49,7 @@ const Registration = () => {
 
     function handleToast(toast){
       setToast(toast);
-  }
+    }
   return (
     <>
       <div className='flex items-center justify-center h-screen w-full'>
@@ -56,7 +58,7 @@ const Registration = () => {
                   <div className='text-xl leading-tight tracking-tight text-white pb-4'>
                       Sign up
                   </div>
-                  <span id='span_toast' className={`text-[12px] w-full py-1  ${isError ? 'bg-red-600': 'bg-green-600'}  text-center rounded-1 text-white ${toast ? '' : 'hidden'}`}>{toast}</span>
+                  <span id='span_toast' className={`text-[12px] w-full py-1  ${isError ? 'border-red-600 text-red-600': 'border-green-600 text-green-600'}  text-center rounded border ${toast ? '' : 'hidden'}`}>{toast}</span>
                   
                   <form className='grid gap-4' onSubmit={e => submitRegistration(e)}>
                     {/* Email Field */}
