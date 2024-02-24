@@ -19,3 +19,4 @@ npm install -D tailwindcss postcss autoprefixer
 npm install react-bootstrap bootstrap
 
 ```
+[Lucaren Set-up Guide](https://breshlyabanid22.github.io/lucaren_setup_guide/)!
