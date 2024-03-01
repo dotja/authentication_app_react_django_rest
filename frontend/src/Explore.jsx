@@ -1,10 +1,11 @@
 import React from 'react'
-import Navbar from './Navbar'
 
 const Explore = () => {
   return (
     <>
-      <div className='h-screen'>Explore Bitch</div>
+      <div className='h-full pt-20 text-white mx-auto md:w-10/12'>
+        Explore Bitch
+      </div>
     </>
    
   )

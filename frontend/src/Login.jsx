@@ -25,7 +25,7 @@ const Login = () => {
               password: password
             }
           ).then(function(res) {
-
+            console.log(res.data)
             setCurrentUser(true);
           }).catch((error) => {
             console.error(error.response.data);
@@ -92,6 +92,7 @@ const Login = () => {
                 </div>            
             </div>    
       </div>
+      
     </>
   )
 }

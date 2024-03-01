@@ -32,7 +32,11 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 	user_id = models.AutoField(primary_key=True)
 	email = models.EmailField(max_length=50, unique=True)
 	username = models.CharField(max_length=50)
-	is_staff = models.BooleanField(default=False) 
+	firstname = models.CharField(max_length=50, blank=True)
+	lastname = models.CharField(max_length=50, blank=True)
+	contact = models.CharField(max_length=15, blank=True)
+	is_staff = models.BooleanField(default=False)
+	user_profile = models.ImageField(null=True, blank=True, upload_to='images/')
 	
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['username']

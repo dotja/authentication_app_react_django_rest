@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from django.core.exceptions import ValidationError
-
 UserModel = get_user_model()
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -33,6 +32,14 @@ class UserLoginSerializer(serializers.Serializer):
 		return user
 
 class UserSerializer(serializers.ModelSerializer):
+
 	class Meta:
 		model = UserModel
-		fields = ('email', 'username')
+		fields = ('email', 'username', 'firstname', 'lastname', 'contact', 'user_profile')
+
+		def update(self, instance, validate_data):
+			user_profile_data = validate_data.pop('user_profile', None)
+			if user_profile_data is not None:
+				instance.user_profile = user_profile_data
+				instance.save()
+			return super().update(instance, validate_data)
