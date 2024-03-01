@@ -2,15 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { client } from './Url';
 import {UserContext} from './App';
 import { useNavigate } from 'react-router-dom';
-import profilePlaceholder from '/profile_placeholder.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import Navbar from './Navbar';
+
 
 const ProfileSettings = () => {
 
     const [currentUser, setCurrentUser] = useContext(UserContext);
     const navigate = useNavigate();
+
+    const profilePlaceholder = '/images/profile_placeholder.jpg';
+
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -18,8 +20,9 @@ const ProfileSettings = () => {
         lastname: '',
         password: '',   
         contact: '',
-        user_profile: '',
+        user_profile: null,
     });
+    const [userProfile, setUserProfile] = useState('');
 
     useEffect(() => {
         console.log(currentUser);
@@ -36,6 +39,7 @@ const ProfileSettings = () => {
             const userData = response.data;
             console.log(userData);
 
+            setUserProfile(userData.user_profile);
             setFormData({
                 username: userData.username,
                 email: userData.email,
@@ -43,7 +47,6 @@ const ProfileSettings = () => {
                 lastname: userData.lastname,
                 password: userData.password,
                 contact: userData.contact,
-                user_profile: userData.user_profile,
             });
         }catch(error){
             console.error('Error fetching the data: ', error);
@@ -51,25 +54,30 @@ const ProfileSettings = () => {
     }
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        setFormData((prevFormData) => ({...prevFormData, [name]: files ? files[0]: value}));
+        
+        if(name === 'user_profile' && files){
+            setFormData((prevFormData) => ({...prevFormData, [name] : files[0]}));
+        }else{
+            setFormData((prevFormData) => ({...prevFormData, [name]: value}));   
+        }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const formDataToSend = new FormData();
-            formDataToSend.append('username', formData.username);
-            formDataToSend.append('email', formData.email);
-            formDataToSend.append('firstname', formData.firstname);
-            formDataToSend.append('password', formData.lastname)
-            formDataToSend.append('password', formData.password);
-            formDataToSend.append('contact', formData.contact);
-            formDataToSend.append('user_profile', formData.user_profile);
+        const formDataToSend = new FormData();
 
+        //Conditionally append the formData if the value is null or not
+        Object.entries(formData).forEach(([key, value]) => {
+            if (value !== null) {
+              formDataToSend.append(key, value);
+            }
+          });
+
+        try {
+            //gets the token from the browser
             const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
-            
-            // console.log(csrfToken);
+
             const response = await client.put('/user/profile', formDataToSend,
             {
                 headers: {
@@ -82,9 +90,8 @@ const ProfileSettings = () => {
             console.error("Error updating the profile: ", error);
         }
     };
-
     const baseUrl = "http://localhost:8000"
-    const imagePath = formData.user_profile ? formData.user_profile : profilePlaceholder
+    const imagePath = userProfile ? userProfile : profilePlaceholder
     console.log(baseUrl + imagePath)
   return (
     <>
@@ -176,7 +183,7 @@ const ProfileSettings = () => {
                             <input
                             id='user_profile'
                             type="file"  
-                            name='user_profile' 
+                            name='user_profile'
                             onChange={handleChange}   
                             className='hidden'
                             />

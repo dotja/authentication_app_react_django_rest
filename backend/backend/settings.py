@@ -145,7 +145,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = '/static/'
 
 # Change this root to your actual root in your local computer
-MEDIA_ROOT = 'C:/Users/Breshly\IM2/Lucaren2/App/backend/media'
+MEDIA_ROOT = 'C:/Users/Breshly/IM2/Lucaren2/App/backend/media'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

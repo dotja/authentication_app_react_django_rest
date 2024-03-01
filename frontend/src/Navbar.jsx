@@ -1,18 +1,45 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import Logo  from '/lucaren-logo.svg'
 import { UserContext } from './App'
 import { client } from './Url'
 import { faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+// import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = () => {
 
     const [currentUser, setCurrentUser] = useContext(UserContext);
     const [isOpen, setIsOpen] = useState(false);
+    const [userProfile, setUserProfile] = useState({
+        username: '',
+        user_profile: '',
+    });
+    const image_placeholder_small = '/images/profile_placeholder_small.jpg';
 
-    // const image_placeholder = <FontAwesomeIcon icon={faUser}/>;
+
+    useEffect(() => {
+        if(currentUser){
+            fetchUserData();
+        }
+    }, [userProfile.user_profile, userProfile.username, currentUser]);
+
+    const fetchUserData = async () => {
+
+        try {
+            const response = await client.get('/user');
+            const userData = response.data;
+
+            setUserProfile({
+                username: userData.username,
+                user_profile: userData.user_profile,
+            })
+            console.log("profile: ", userProfile)
+            console.log("profile from request: ", userData.user_profile)
+        } catch (error) {
+            console.error("Errot fetching user data: ", error)
+        }
+    } 
     function submitLogout(e) {
         e.preventDefault();
         client.post(
@@ -32,10 +59,10 @@ const Navbar = () => {
         
     }
 
-    // const baseUrl = "http://localhost:8000"
-    // const imagePath = userProfile ? userProfile : image_placeholder;
-    // console.log("Nav: ", baseUrl + imagePath);
-    // console.log("Username: ", userName);
+    const baseUrl = "http://localhost:8000"
+    const imagePath = userProfile.user_profile ? userProfile.user_profile : image_placeholder_small;
+    console.log("Nav: ", baseUrl + imagePath);
+    console.log("Image ", userProfile);
 
 
   return (
@@ -62,13 +89,13 @@ const Navbar = () => {
                 <>
                 
                 <div className="flex flex-row items-center gap-x-3">
-                    <div>dasda:</div> 
+                    <div>{userProfile.username}</div> 
                     <button 
-                        className=' bg-slate-600 md:w-[40px] md:h-[40px] h-[32px] w-[32px] rounded-full flex items-center justify-center'
+                        className='h-[32px] w-[32px] flex items-center justify-center rounded-s-full 
+                        md:w-[48px] md:h-[48px]  border border-yellow p-1 rounded-full hover:p-0'
                         onClick={openModal}
                         >
-                        <FontAwesomeIcon icon={faUser}/>
-                        {/* <img src={image_placeholder} alt="pfp" className='rounded-full object-cover cursor-pointer w-[64px] h-[64px]'/> */}
+                        <img src={baseUrl + imagePath} alt="pfp" className='rounded-full'/>
                     </button>
                     {/* Modal */}
                     {isOpen && (
