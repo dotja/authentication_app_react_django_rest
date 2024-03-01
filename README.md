@@ -2,6 +2,8 @@
 
 Authentication app using React and Django REST framework with session authentication.
 
+[Lucaren Set-up Guide](https://breshlyabanid22.github.io/lucaren_setup_guide/)!
+
 ## Installations
 
 * backend
@@ -9,6 +11,7 @@ Authentication app using React and Django REST framework with session authentica
 pip install djangorestframework
 pip install django-cors-headers
 pip install mysqlclient
+pip install pillow
 ```
 
 * frontend
@@ -19,3 +22,4 @@ npm install -D tailwindcss postcss autoprefixer
 npm install react-bootstrap bootstrap
 
 ```
+
