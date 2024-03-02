@@ -5,7 +5,6 @@ import { UserContext } from './App'
 import { client } from './Url'
 import { faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = () => {
 
@@ -16,7 +15,7 @@ const Navbar = () => {
         user_profile: '',
     });
     const image_placeholder_small = '/images/profile_placeholder_small.jpg';
-
+ 
 
     useEffect(() => {
         if(currentUser){
