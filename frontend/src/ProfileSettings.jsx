@@ -21,7 +21,7 @@ const ProfileSettings = () => {
         lastname: '',
         password: '',   
         contact: '',
-        user_profile: null,
+        user_profile: '',
     });
     const [userProfile, setUserProfile] = useState('');
 
@@ -70,7 +70,7 @@ const ProfileSettings = () => {
 
         //Conditionally append the formData if the value is null or not
         Object.entries(formData).forEach(([key, value]) => {
-            if (value !== null) {
+            if (value !== '') {
               formDataToSend.append(key, value);
             }
           });

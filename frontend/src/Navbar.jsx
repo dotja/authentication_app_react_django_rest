@@ -102,7 +102,7 @@ const Navbar = () => {
                             id='myModal'>
                             <div className='px-4 py-1 mb-4 bg-slate-400'>
                                 <div>
-                                Your profiledsa
+                                Your profile
                                 </div>
                             </div>
                             <div >
