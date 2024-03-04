@@ -70,7 +70,7 @@ const ProfileSettings = () => {
 
         //Conditionally append the formData if the value is null or not
         Object.entries(formData).forEach(([key, value]) => {
-            if (value !== '') {
+            if (value !== '' || value !== null) {
               formDataToSend.append(key, value);
             }
           });
@@ -87,6 +87,7 @@ const ProfileSettings = () => {
                 },
             });
             console.log("Profile Updated: ", response.data);
+            window.location.reload(); //reloads the page after update
         } catch (error) {
             console.error("Error updating the profile: ", error);
         }

@@ -11,9 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
-/backend/backend/settings.py
-/backend/venv
-/backend/media/images
+settings.py
+backend/venv
+backend/media/images/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

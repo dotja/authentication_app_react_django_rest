@@ -33,8 +33,6 @@ const Navbar = () => {
                 username: userData.username,
                 user_profile: userData.user_profile,
             })
-            console.log("profile: ", userProfile)
-            console.log("profile from request: ", userData.user_profile)
         } catch (error) {
             console.error("Errot fetching user data: ", error)
         }
@@ -59,8 +57,6 @@ const Navbar = () => {
 
     const baseUrl = "http://localhost:8000"
     const imagePath = userProfile.user_profile ? userProfile.user_profile : image_placeholder_small;
-    console.log("Nav: ", baseUrl + imagePath);
-    console.log("Image ", userProfile);
 
 
   return (
@@ -89,11 +85,11 @@ const Navbar = () => {
                 <div className="flex flex-row items-center gap-x-3">
                     <div>{userProfile.username}</div> 
                     <button 
-                        className='h-[32px] w-[32px] flex items-center justify-center rounded-s-full 
-                        md:w-[48px] md:h-[48px]  border border-yellow p-1 rounded-full hover:p-0'
+                        className='h-[32px] w-[32px] flex items-center justify-center
+                        md:w-[48px] md:h-[48px]  border border-yellow p-1 rounded-full hover:p-0 cursor-pointer'
                         onClick={openModal}
                         >
-                        <img src={baseUrl + imagePath} alt="pfp" className='rounded-full'/>
+                        <img src={baseUrl + imagePath} alt="pfp" className='rounded-full object-cover'/>
                     </button>
                     {/* Modal */}
                     {isOpen && (
