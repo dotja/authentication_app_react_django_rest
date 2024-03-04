@@ -55,7 +55,6 @@ const Navbar = () => {
         }else{
             setIsOpen(false);
         }
-        
     }
 
     const baseUrl = "http://localhost:8000"

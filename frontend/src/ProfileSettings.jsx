@@ -11,6 +11,7 @@ const ProfileSettings = () => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
     const navigate = useNavigate();
 
+    // declares the path of the image placeholder (The placeholder is displayed if no user profile is uploaded)
     const profilePlaceholder = '/images/profile_placeholder.jpg';
 
     const [formData, setFormData] = useState({
@@ -90,9 +91,12 @@ const ProfileSettings = () => {
             console.error("Error updating the profile: ", error);
         }
     };
+
     const baseUrl = "http://localhost:8000"
+    //The profile placeholder is displayed if the user did not upload his/her profile
     const imagePath = userProfile ? userProfile : profilePlaceholder
     console.log(baseUrl + imagePath)
+
   return (
     <>
     <div className='flex justify-center h-full pt-20 mx-auto text-white md:w-10/12'>
