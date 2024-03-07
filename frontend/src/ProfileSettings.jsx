@@ -190,7 +190,7 @@ const ProfileSettings = () => {
                     name="contact"
                     defaultValue={formData.contact}
                     onChange={handleChange}
-                    className="px-4 py-2 mt-2 text-gray-400 border-b-2 peer focus:outline-none bg-inherit focus:border-b-yellow"
+                    className="px-4 py-2 mt-2 text-gray-400 border-b-2 peer focus:outline-none bg-inherit focus:border-b-yellow [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                   <label
                     htmlFor="contact"
