@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { client } from "./Url";
 import { UserContext } from "./App";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileSettings = () => {
   const [currentUser, setCurrentUser] = useContext(UserContext);
-  const navigate = useNavigate();
-
-  // declares the path of the image placeholder (The placeholder is displayed if no user profile is uploaded)
+  const [userProfile, setUserProfile] = useState("");
+  // Declares the path of the avatar placeholder
   const profilePlaceholder = "/images/profile_placeholder.jpg";
+  
+  const baseUrl = "http://localhost:8000";
+
+  //The profile placeholder is displayed if the user did not upload a profile
+  const imagePath = userProfile ? userProfile : profilePlaceholder;
 
   const [formData, setFormData] = useState({
     username: "",
@@ -21,24 +24,23 @@ const ProfileSettings = () => {
     contact: "",
     user_profile: "",
   });
-  const [userProfile, setUserProfile] = useState("");
+ 
 
   useEffect(() => {
-    console.log(currentUser);
+
     if (currentUser) {
       fetchUserData();
-    } else {
-      navigate("/");
-    }
-  }, [currentUser, history]);
+    } 
+
+  }, [currentUser]);
 
   const fetchUserData = async () => {
     try {
       const response = await client.get("/user");
       const userData = response.data;
-      console.log(userData);
 
       setUserProfile(userData.user_profile);
+
       setFormData({
         username: userData.username,
         email: userData.email,
@@ -75,28 +77,27 @@ const ProfileSettings = () => {
 
     try {
       //gets the token from the browser
+      
       const csrfToken = document.cookie
         .split("; ")
         .find((row) => row.startsWith("csrftoken="))
         .split("=")[1];
 
+      console.log("Token:", csrfToken);
       const response = await client.put("/user/profile", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
           "X-CSRFToken": csrfToken,
         },
       });
-      console.log("Profile Updated: ", response.data);
+
       window.location.reload(); //reloads the page after update
     } catch (error) {
       console.error("Error updating the profile: ", error);
     }
   };
 
-  const baseUrl = "http://localhost:8000";
-  //The profile placeholder is displayed if the user did not upload his/her profile
-  const imagePath = userProfile ? userProfile : profilePlaceholder;
-  console.log(baseUrl + imagePath);
+
 
   return (
     <>
