@@ -121,21 +121,21 @@ const Navbar = () => {
                         />
                     <p className="font-medium truncate">{userProfile.firstname + " " + userProfile.lastname}</p>
                   </div>
-                  <div className="px-4 py-2 mb-2 hover:bg-black-2 overflow-x-hidden rounded-sm hover:text-yellow">
-                    <FontAwesomeIcon icon={faGear} className="mr-2"/>
-                    <Link to="/profile-settings">Profile Settings</Link>
+                  <div className="px-2 py-2 mb-2 hover:bg-black-2 overflow-x-hidden rounded-sm hover:text-yellow flex items-center gap-3">                
+                    <FontAwesomeIcon icon={faGear} className="p-2 bg-black-2 rounded-full"/>
+                    <Link to="/profile-settings">Account Settings</Link>
                   </div>
                   <form
                     onSubmit={submitLogout}
-                    className="px-4 py-2 hover:text-yellow hover:bg-black-2 rounded-sm"
+                    className="px-2 py-2 hover:text-yellow hover:bg-black-2 rounded-sm"
                   >
                     <button
                       type="submit"
-                      className="flex items-center justify-center"
+                      className="flex items-center justify-center gap-3"
                     >
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
-                        className="mr-2 hover:text-yellow"
+                        className="p-2 bg-black-2 rounded-full"
                       />
                       Log out
                     </button>
