@@ -1,15 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Logo from "/lucaren-logo.svg";
 import { UserContext } from "./App";
 import { client } from "./Url";
-import { faArrowRightFromBracket, faGear} from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightFromBracket,
+  faGear,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navbar = () => {
   const [currentUser, setCurrentUser] = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const ref = useRef(null);
   const [userProfile, setUserProfile] = useState({
     username: "",
     user_profile: "",
@@ -19,10 +23,24 @@ const Navbar = () => {
   const image_placeholder_small = "/images/profile_placeholder_small.jpg";
 
   useEffect(() => {
+
+    //Close the modal when clicking outside
+    const handleClickOutside = (e) => {
+        if(ref.current && !ref.current.contains(e.target)){
+            setIsOpen(false);
+        }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    }
+  },[]);
+
+  useEffect(() => {
     if (currentUser) {
       fetchUserData();
     }
-    
   }, [currentUser]);
 
   const fetchUserData = async () => {
@@ -43,8 +61,9 @@ const Navbar = () => {
   function submitLogout(e) {
     e.preventDefault();
     client.post("/logout", { withCredentials: true }).then(function (res) {
-        setCurrentUser(false);
-        navigate('/');
+      setCurrentUser(false);
+      setIsOpen(false);
+      navigate("/");
     });
   }
   function openModal() {
@@ -54,7 +73,6 @@ const Navbar = () => {
       setIsOpen(false);
     }
   }
-
   const baseUrl = "http://localhost:8000";
   const imagePath = userProfile.user_profile
     ? userProfile.user_profile
@@ -113,20 +131,29 @@ const Navbar = () => {
               {isOpen && (
                 <div
                   className="fixed flex bg-black border border-black2 z-10 right-12 w-[300px] md:w-[350px] flex-col rounded shadow-md shadow-black py-4 px-4 top-16"
-                  id="myModal" 
+                  id="myModal"
+                  ref={ref}
                 >
                   <div className="px-4 py-4 border-b-2 border-yellow mb-2 bg-black-2 overflow-x-hidden rounded-sm flex items-center gap-2 shadow">
                     <img
-                        src={baseUrl + imagePath}
-                        alt="pfp"
-                        className="rounded-full object-cover size-9"
-                        />
-                    <p className="font-medium truncate">{userProfile.firstname + " " + userProfile.lastname}</p>
+                      src={baseUrl + imagePath}
+                      alt="pfp"
+                      className="rounded-full object-cover size-9"
+                    />
+                    <p className="font-medium truncate">
+                      {userProfile.firstname + " " + userProfile.lastname}
+                    </p>
                   </div>
-                  <div className="px-2 py-2 mb-2 hover:bg-black-2 overflow-x-hidden rounded-sm hover:text-yellow flex items-center gap-3">                
-                    <FontAwesomeIcon icon={faGear} className="p-2 bg-black-2 rounded-full"/>
-                    <Link to="/profile-settings">Account Settings</Link>
-                  </div>
+
+                  <Link to="/profile-settings">
+                    <div className="px-2 py-2 mb-2 hover:bg-black-2 overflow-x-hidden rounded-sm hover:text-yellow flex items-center gap-3">
+                      <FontAwesomeIcon
+                        icon={faGear}
+                        className="p-2 bg-black-2 rounded-full"
+                      />
+                      Account Settings
+                    </div>
+                  </Link>
                   <form
                     onSubmit={submitLogout}
                     className="px-2 py-2 hover:text-yellow hover:bg-black-2 rounded-sm"
