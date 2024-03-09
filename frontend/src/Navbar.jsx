@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Logo from "/lucaren-logo.svg";
 import { UserContext } from "./App";
 import { client } from "./Url";
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Navbar = () => {
   const [currentUser, setCurrentUser] = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState({
     username: "",
     user_profile: "",
@@ -42,7 +43,8 @@ const Navbar = () => {
   function submitLogout(e) {
     e.preventDefault();
     client.post("/logout", { withCredentials: true }).then(function (res) {
-      setCurrentUser(false);
+        setCurrentUser(false);
+        navigate('/');
     });
   }
   function openModal() {

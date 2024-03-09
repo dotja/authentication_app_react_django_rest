@@ -31,7 +31,6 @@ const ProfileSettings = () => {
     if (currentUser) {
       fetchUserData();
     } 
-
   }, [currentUser]);
 
   const fetchUserData = async () => {
