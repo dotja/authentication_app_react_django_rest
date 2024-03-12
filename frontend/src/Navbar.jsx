@@ -124,7 +124,7 @@ const Navbar = () => {
                 <img
                   src={baseUrl + imagePath}
                   alt="pfp"
-                  className="rounded-full object-cover"
+                  className="object-cover rounded-full"
                 />
               </button>
               {/* Modal */}
@@ -134,29 +134,29 @@ const Navbar = () => {
                   id="myModal"
                   ref={ref}
                 >
-                  <div className="px-4 py-4 border-b-2 border-yellow mb-2 bg-black-2 overflow-x-hidden rounded-sm flex items-center gap-2 shadow">
+                  <div className="flex items-center gap-2 px-4 py-4 mb-2 overflow-x-hidden border-b-2 rounded-sm shadow border-yellow bg-black-2">
                     <img
                       src={baseUrl + imagePath}
                       alt="pfp"
-                      className="rounded-full object-cover size-9"
+                      className="object-cover rounded-full size-9"
                     />
                     <p className="font-medium truncate">
                       {userProfile.firstname + " " + userProfile.lastname}
                     </p>
                   </div>
 
-                  <Link to="/profile-settings">
-                    <div className="px-2 py-2 mb-2 hover:bg-black-2 overflow-x-hidden rounded-sm hover:text-yellow flex items-center gap-3">
+                  <Link to="/account-settings">
+                    <div className="flex items-center gap-3 px-2 py-2 mb-2 overflow-x-hidden rounded-sm hover:bg-black-2 hover:text-yellow">
                       <FontAwesomeIcon
                         icon={faGear}
-                        className="p-2 bg-black-2 rounded-full"
+                        className="p-2 rounded-full bg-black-2"
                       />
                       Account Settings
                     </div>
                   </Link>
                   <form
                     onSubmit={submitLogout}
-                    className="px-2 py-2 hover:text-yellow hover:bg-black-2 rounded-sm"
+                    className="px-2 py-2 rounded-sm hover:text-yellow hover:bg-black-2"
                   >
                     <button
                       type="submit"
@@ -164,7 +164,7 @@ const Navbar = () => {
                     >
                       <FontAwesomeIcon
                         icon={faArrowRightFromBracket}
-                        className="p-2 bg-black-2 rounded-full"
+                        className="p-2 rounded-full bg-black-2"
                       />
                       Log out
                     </button>
