@@ -9,6 +9,8 @@ import Registration from './Registration';
 import Explore from './Explore';
 import RentACar from './RentACar';
 import ProfileSettings from './ProfileSettings';
+import CarListing from './CarListing';
+import ManageProfile from './ManageProfile';
 
 export const UserContext = createContext();
 
@@ -37,7 +39,10 @@ function App() {
             <Route path='/login' element={<Login />}/>
             <Route path='/explore' element={<Explore/>}/>
             <Route path='/rent-a-car' element={<RentACar/>}/>
-            <Route path='/profile-settings' element={<ProfileSettings/>}/>
+            <Route path='/account-settings' element={<ProfileSettings/>}>
+              <Route index element={<ManageProfile/>}/>
+              <Route path='/account-settings/car-listing' element={<CarListing/>}/>
+            </Route>
           </Route>
         </Routes> 
       </UserContext.Provider>
