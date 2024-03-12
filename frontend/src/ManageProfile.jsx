@@ -101,8 +101,8 @@ const ManageProfile = () => {
     <>
       <div className="flex justify-center h-screen pt-20 mx-auto text-white md:w-10/12">
       
-        <div className="md:mx-10 w-[700px] py-6">
-          <div className="text-lg">Profile Settings</div>
+        <div className="md:mx-10 w-[700px] mt-20 2xl:mt-28 2xl:text-lg 2xl:w-[800px]">
+          <div className="text-lg 2xl:text-xl">Profile Settings</div>
           <form
             onSubmit={handleSubmit}
             className="flex justify-center gap-8 mt-10"

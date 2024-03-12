@@ -23,19 +23,18 @@ const Navbar = () => {
   const image_placeholder_small = "/images/profile_placeholder_small.jpg";
 
   useEffect(() => {
-
     //Close the modal when clicking outside
     const handleClickOutside = (e) => {
-        if(ref.current && !ref.current.contains(e.target)){
-            setIsOpen(false);
-        }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
+      if (ref.current && !ref.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-    }
-  },[]);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (currentUser) {
@@ -80,7 +79,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed z-10 flex flex-row items-center justify-between w-full px-4 py-2 mx-auto text-white bg-black md:px-8 xl:px-20 flex-nowrap">
+      <div className="fixed z-10 flex flex-row items-center justify-between w-full 2xl:text-lg px-4 py-2 mx-auto text-white bg-black md:px-8 2xl:px-20 flex-nowrap">
         <div>
           <img src={Logo} alt="Lucaren logo" />
         </div>
