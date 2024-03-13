@@ -12,7 +12,8 @@ from rest_framework import status
 # validate_email, validate_password
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
-
+from .models import CarListing
+from . serializers import CarListingSerializer
 class UserRegister(APIView):
 	permission_classes = (permissions.AllowAny,)
 	def post(self, request):
@@ -82,3 +83,17 @@ class UserProfileUpdate(UpdateAPIView):
 		self.perform_update(serializer)
 		update_session_auth_hash(request, instance)
 		return Response(serializer.data)
+
+class CarListingView(APIView):
+
+	def get(self, request):
+		car_listings = CarListing.objects.all()
+		serializer = CarListingSerializer(car_listings, many=True)
+		return Response (serializer.data)
+	
+	def post(self, request):
+		serializer = CarListingSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
