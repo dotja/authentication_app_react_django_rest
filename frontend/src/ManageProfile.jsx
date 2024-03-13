@@ -83,8 +83,7 @@ const ManageProfile = () => {
           .split("; ")
           .find((row) => row.startsWith("csrftoken="))
           .split("=")[1];
-  
-        console.log("Token:", csrfToken);
+          
         const response = await client.put("/user/profile", formDataToSend, {
           headers: {
             "Content-Type": "multipart/form-data",

@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
+import { client } from "./Url";
 
 const CarListing = () => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
+  const [formData, setFormData] = useState({
+    make: "",
+    model: "",
+    model_year: "",
+    daily_rate: "",
+    transmission: "",
+    image_file: "",
+  });
 
-  function openModal() {
-    setIsOpen(true);
-  }
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
@@ -20,10 +26,57 @@ const CarListing = () => {
     };
   }, []);
 
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    if (name === "image_file" && files) {
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
+    } else {
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formDataToSend = new FormData();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value === "" || value === null) {
+         alert("Upload an image");
+      }else{
+        formDataToSend.append(key, value);
+      }
+    });
+    try {
+
+      const csrfToken = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("csrftoken="))
+          .split("=")[1];
+
+      const response = client.post("/carlisting", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": csrfToken,
+        },
+      });
+      alert("Listing added successfully");
+      setFormData({
+        make: "",
+        model: "",
+        model_year: "",
+        daily_rate: "",
+        transmission: "",
+        image_file: "",
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
     console.log("submitted");
   };
+  function openModal() {
+    setIsOpen(true);
+  }
 
   return (
     <>
@@ -40,16 +93,24 @@ const CarListing = () => {
       </div>
       {isOpen && (
         <div className="absolute flex items-center justify-center z-20 h-screen w-screen bg-slate-600 bg-opacity-25 top-0">
-          <div
-            ref={ref}
-            className="bg-black rounded-md p-6 relative"
-          >
+          <div ref={ref} className="bg-black rounded-md p-6 relative">
             <div className="text-white">Create a Listing</div>
             <form
               onSubmit={handleSubmit}
-              className="my-8 flex flex-row justify-center gap-x-8"
+              className="mt-8 mb-6 flex flex-row justify-center gap-x-8"
             >
-              <div className="bg-slate-100 h-[230px] w-[180px] 2xl:w-[200px] rounded-sm"></div>
+              <label
+                htmlFor="image_file"
+                className="bg-slate-100 h-[230px] w-[180px] 2xl:w-[200px] rounded-sm"
+              >
+                <input
+                  id="image_file"
+                  type="file"
+                  name="image_file"
+                  onChange={handleChange}
+                  className="hidden"
+                />
+              </label>
               <div className="flex flex-col gap-y-6">
                 <div className="gap-2 flex items-center justify-between items">
                   <label htmlFor="make" className="text-white text-sm">
@@ -59,6 +120,8 @@ const CarListing = () => {
                     id="make"
                     type="text"
                     name="make"
+                    value={formData.make}
+                    onChange={handleChange}
                     placeholder="e.g., Toyota, Ford, Chevrolet"
                     className="text-sm border-none bg-black-2 focus:outline-none text-white px-2 py-1 placeholder:text-sm placeholder-gray-500"
                   />
@@ -71,6 +134,8 @@ const CarListing = () => {
                     id="model"
                     type="text"
                     name="model"
+                    value={formData.model}
+                    onChange={handleChange}
                     placeholder=""
                     className="text-sm border-none bg-black-2 focus:outline-none text-white px-2 py-1 placeholder:text-sm placeholder-gray-500"
                   />
@@ -82,19 +147,23 @@ const CarListing = () => {
                   <input
                     id="model_year"
                     type="text"
-                    name="model"
+                    name="model_year"
+                    value={formData.model_year}
+                    onChange={handleChange}
                     placeholder=""
                     className="text-sm border-none bg-black-2 focus:outline-none text-white px-2 py-1 placeholder:text-sm placeholder-gray-500"
                   />
                 </div>
                 <div className="gap-2 flex items-center justify-between">
-                  <label htmlFor="rate" className="text-white text-sm">
+                  <label htmlFor="daily_rate" className="text-white text-sm">
                     Daily Rate
                   </label>
                   <input
-                    id="rate"
+                    id="daily_rate"
                     type="number"
-                    name="rate"
+                    name="daily_rate"
+                    value={formData.daily_rate}
+                    onChange={handleChange}
                     placeholder=""
                     className="text-sm border-none bg-black-2 focus:outline-none text-white px-2 py-1 placeholder:text-sm placeholder-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
@@ -104,20 +173,32 @@ const CarListing = () => {
                     Automatic
                   </label>
                   <input
-                    id="transmission"
+                    id="automatic"
                     type="radio"
                     name="transmission"
+                    value="automatic"
+                    onChange={handleChange}
                     className=""
                   />
                   <label htmlFor="transmission" className="text-white text-sm">
                     Manual
                   </label>
                   <input
-                    id="transmission"
+                    id="manual"
                     type="radio"
                     name="transmission"
+                    value="manual"
+                    onChange={handleChange}
                     className=""
                   />
+                </div>
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    className="text-yellow py-1 px-3 border border-yellow rounded-sm text-sm hover:bg-yellow hover:text-white"
+                  >
+                    Add Listing
+                  </button>
                 </div>
               </div>
             </form>

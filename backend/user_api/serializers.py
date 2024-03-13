@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from django.core.exceptions import ValidationError
+from . models import CarListing
 UserModel = get_user_model()
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -42,3 +43,8 @@ class UserSerializer(serializers.ModelSerializer):
 			if user_profile_data is not None:
 				instance.user_profile = user_profile_data
 			return super().update(instance, validated_data)
+
+class CarListingSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = CarListing
+		fields = ('make', 'model', 'model_year', 'daily_rate', 'transmission', 'image_file')
