@@ -79,34 +79,42 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed z-10 flex flex-row items-center justify-between w-full 2xl:text-lg px-4 py-2 mx-auto text-white bg-black md:px-8 2xl:px-20 flex-nowrap">
+      <div className="fixed z-10 flex flex-row items-center justify-between w-full px-4 py-2 mx-auto text-white bg-black 2xl:text-lg md:px-8 2xl:px-20 flex-nowrap">
         <div>
           <img src={Logo} alt="Lucaren logo" />
         </div>
         <div className="hidden md:block">
-          <ul className="grid content-start grid-cols-3 gap-4 p-0 m-0">
-            <li>
+          <ul className="grid content-start grid-cols-4 gap-8 p-0 m-0">
+            <li className="text-center">
               <Link
                 to="/"
-                className="no-underline hover:text-amber-300 text-slate-100"
+                className="text-center no-underline hover:text-amber-300 text-slate-100"
               >
                 Home
               </Link>
             </li>
-            <li>
+            <li className="text-center">
               <Link
-                to="/explore"
+                to="/cars"
                 className="no-underline text-slate-100 hover:text-amber-300"
               >
-                Explore
+                Cars
               </Link>
             </li>
-            <li>
+            <li className="text-center">
               <Link
-                to="/rent-a-car"
+                to="/about"
                 className="no-underline text-slate-100 hover:text-amber-300"
               >
-                Rent a Car
+                About
+              </Link>
+            </li>
+            <li className="text-center">
+              <Link
+                to="/contact"
+                className="no-underline text-slate-100 hover:text-amber-300"
+              >
+                Contact
               </Link>
             </li>
           </ul>

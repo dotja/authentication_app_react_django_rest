@@ -1,11 +1,11 @@
 import React from 'react'
 
-const RentACar = () => {
+const About = () => {
   return (
     <div className='h-full pt-20 text-white mx-auto md:w-10/12'>
-      RentACar
+      About
     </div>
   )
 }
 
-export default RentACar
+export default About

@@ -1,9 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { client } from "./Url";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+
 const CarListing = () => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
+  const [toast, setToast] = useState("");
+  const [isError, setIsError] = useState(false);
   const [formData, setFormData] = useState({
     make: "",
     model: "",
@@ -41,41 +46,51 @@ const CarListing = () => {
     const formDataToSend = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
-      if (value === "" || value === null) {
-         alert("Upload an image");
-      }else{
+      if (value !== "") {
         formDataToSend.append(key, value);
       }
     });
     try {
-
       const csrfToken = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("csrftoken="))
-          .split("=")[1];
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken="))
+        .split("=")[1];
 
-      const response = client.post("/carlisting", formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": csrfToken,
-        },
-      });
-      alert("Listing added successfully");
-      setFormData({
-        make: "",
-        model: "",
-        model_year: "",
-        daily_rate: "",
-        transmission: "",
-        image_file: "",
-      });
+      const response = client
+        .post("/carlisting", formDataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "X-CSRFToken": csrfToken,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          handleToast("Successfully added");
+          setIsError(false)
+          setFormData({
+            make: "",
+            model: "",
+            model_year: "",
+            daily_rate: "",
+            transmission: "",
+            image_file: "",
+          });
+        })
+        .catch((error) => {
+          handleToast("Please upload an image");
+          setIsError(true);
+          console.error(error);
+        });
     } catch (error) {
-      console.error("Error:", error);
+      console.log(error);
     }
-    console.log("submitted");
   };
+
   function openModal() {
     setIsOpen(true);
+  }
+  function handleToast(toast) {
+    setToast(toast);
   }
 
   return (
@@ -92,17 +107,39 @@ const CarListing = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="absolute flex items-center justify-center z-20 h-screen w-screen bg-slate-600 bg-opacity-25 top-0">
-          <div ref={ref} className="bg-black rounded-md p-6 relative">
-            <div className="text-white">Create a Listing</div>
+        <div className="absolute top-0 z-20 flex items-center justify-center w-screen h-screen bg-opacity-25 bg-slate-600">
+          <div ref={ref} className="relative p-6 bg-black rounded-md">
+            <div className="text-white text-lg mb-4">Create a Listing</div>
+            <div
+              className={`text-center text-sm py-1 rounded-sm ${
+                isError
+                  ? "text-red-500 border border-red-500"
+                  : "text-green-500 border border-green-500"
+              } ${toast ? "" : "hidden"}`}
+            >
+              {toast}
+            </div>
             <form
               onSubmit={handleSubmit}
-              className="mt-8 mb-6 flex flex-row justify-center gap-x-8"
+              className="flex flex-row justify-center mt-8 mb-6 gap-x-8"
             >
               <label
                 htmlFor="image_file"
-                className="bg-slate-100 h-[230px] w-[180px] 2xl:w-[200px] rounded-sm"
+                className="flex items-center justify-center bg-black-2 h-[280px] w-[200px] 2xl:w-[200px] rounded-md text-yellow font-thin"
               >
+                {formData.image_file ? (
+                  <img
+                    src={URL.createObjectURL(formData.image_file)}
+                    className="object-cover h-[280px] w-[200px] 2xl:w-[230px] rounded-md hover:object-contain"
+                  />
+                ) : (
+                  <div className="text-sm flex flex-col items-center justify-center gap-y-2">
+                    <span>
+                      <FontAwesomeIcon icon={faUpload} size="xl" />
+                    </span>
+                    <p>Upload image</p>
+                  </div>
+                )}
                 <input
                   id="image_file"
                   type="file"
@@ -112,8 +149,8 @@ const CarListing = () => {
                 />
               </label>
               <div className="flex flex-col gap-y-6">
-                <div className="gap-2 flex items-center justify-between items">
-                  <label htmlFor="make" className="text-white text-sm">
+                <div className="flex items-center justify-between gap-2 items">
+                  <label htmlFor="make" className="text-sm text-white">
                     Make
                   </label>
                   <input
@@ -122,12 +159,13 @@ const CarListing = () => {
                     name="make"
                     value={formData.make}
                     onChange={handleChange}
+                    required
                     placeholder="e.g., Toyota, Ford, Chevrolet"
-                    className="text-sm border-none bg-black-2 focus:outline-none text-white px-2 py-1 placeholder:text-sm placeholder-gray-500"
+                    className="px-2 py-1 text-sm text-white placeholder-gray-500 border-none bg-black-2 focus:outline-none placeholder:text-sm required:border-red-700"    
                   />
                 </div>
-                <div className="gap-2 flex items-center justify-between">
-                  <label htmlFor="model" className="text-white text-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <label htmlFor="model" className="text-sm text-white">
                     Model
                   </label>
                   <input
@@ -136,12 +174,13 @@ const CarListing = () => {
                     name="model"
                     value={formData.model}
                     onChange={handleChange}
+                    required
                     placeholder=""
-                    className="text-sm border-none bg-black-2 focus:outline-none text-white px-2 py-1 placeholder:text-sm placeholder-gray-500"
+                    className="px-2 py-1 text-sm text-white placeholder-gray-500 border-none bg-black-2 focus:outline-none placeholder:text-sm"
                   />
                 </div>
-                <div className="gap-2 flex items-center justify-between">
-                  <label htmlFor="model_year" className="text-white text-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <label htmlFor="model_year" className="text-sm text-white">
                     Model Year
                   </label>
                   <input
@@ -150,12 +189,13 @@ const CarListing = () => {
                     name="model_year"
                     value={formData.model_year}
                     onChange={handleChange}
+                    required
                     placeholder=""
-                    className="text-sm border-none bg-black-2 focus:outline-none text-white px-2 py-1 placeholder:text-sm placeholder-gray-500"
+                    className="px-2 py-1 text-sm text-white placeholder-gray-500 border-none bg-black-2 focus:outline-none placeholder:text-sm"
                   />
                 </div>
-                <div className="gap-2 flex items-center justify-between">
-                  <label htmlFor="daily_rate" className="text-white text-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <label htmlFor="daily_rate" className="text-sm text-white">
                     Daily Rate
                   </label>
                   <input
@@ -165,11 +205,12 @@ const CarListing = () => {
                     value={formData.daily_rate}
                     onChange={handleChange}
                     placeholder=""
+                    required
                     className="text-sm border-none bg-black-2 focus:outline-none text-white px-2 py-1 placeholder:text-sm placeholder-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </div>
-                <div className="gap-2 flex items-center justify-evenly">
-                  <label htmlFor="transmission" className="text-white text-sm">
+                <div className="flex items-center gap-2 justify-evenly">
+                  <label htmlFor="transmission" className="text-sm text-white">
                     Automatic
                   </label>
                   <input
@@ -178,9 +219,8 @@ const CarListing = () => {
                     name="transmission"
                     value="automatic"
                     onChange={handleChange}
-                    className=""
                   />
-                  <label htmlFor="transmission" className="text-white text-sm">
+                  <label htmlFor="transmission" className="text-sm text-white">
                     Manual
                   </label>
                   <input
@@ -189,13 +229,12 @@ const CarListing = () => {
                     name="transmission"
                     value="manual"
                     onChange={handleChange}
-                    className=""
                   />
                 </div>
                 <div className="text-center">
                   <button
                     type="submit"
-                    className="text-yellow py-1 px-3 border border-yellow rounded-sm text-sm hover:bg-yellow hover:text-white"
+                    className="px-3 py-1 text-sm border rounded-sm text-yellow border-yellow hover:bg-yellow hover:text-white"
                   >
                     Add Listing
                   </button>

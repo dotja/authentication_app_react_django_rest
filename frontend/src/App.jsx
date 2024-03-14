@@ -6,11 +6,12 @@ import { client }  from './Url'
 import Home from './Home';
 import Login from './Login';
 import Registration from './Registration';
-import Explore from './Explore';
-import RentACar from './RentACar';
+import Cars from './Cars';
+import About from './About';
 import ProfileSettings from './ProfileSettings';
 import CarListing from './CarListing';
 import ManageProfile from './ManageProfile';
+import Contact from './Contact';
 
 export const UserContext = createContext();
 
@@ -37,8 +38,9 @@ function App() {
             <Route index element={<Home/>}/>
             <Route path='/signup' element={<Registration/>}/>
             <Route path='/login' element={<Login />}/>
-            <Route path='/explore' element={<Explore/>}/>
-            <Route path='/rent-a-car' element={<RentACar/>}/>
+            <Route path='/cars' element={<Cars/>}/>
+            <Route path='/about' element={<About/>}/>
+            <Route path='/contact' element={<Contact/>}/>
             <Route path='/account-settings' element={<ProfileSettings/>}>
               <Route index element={<ManageProfile/>}/>
               <Route path='/account-settings/car-listing' element={<CarListing/>}/>

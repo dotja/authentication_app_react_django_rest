@@ -1,14 +1,14 @@
 import React from 'react'
 
-const Explore = () => {
+const Contact = () => {
   return (
     <>
       <div className='pt-20 mx-auto text-white md:w-10/12'>
-        Car
+        Contact
       </div>
     </>
    
   )
 }
 
-export default Explore
+export default Contact
