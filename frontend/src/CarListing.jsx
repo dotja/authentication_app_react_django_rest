@@ -185,13 +185,13 @@ const CarListing = () => {
                   </label>
                   <input
                     id="model_year"
-                    type="text"
+                    type="number"
                     name="model_year"
                     value={formData.model_year}
                     onChange={handleChange}
                     required
                     placeholder=""
-                    className="px-2 py-1 text-sm text-white placeholder-gray-500 border-none bg-black-2 focus:outline-none placeholder:text-sm"
+                    className="px-2 py-1 text-sm text-white placeholder-gray-500 border-none bg-black-2 focus:outline-none placeholder:text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                 </div>
                 <div className="flex items-center justify-between gap-2">
