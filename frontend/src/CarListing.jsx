@@ -9,6 +9,7 @@ const CarListing = () => {
   const ref = useRef(null);
   const [toast, setToast] = useState("");
   const [isError, setIsError] = useState(false);
+  const [carData, setCarData] = useState([]);
   const [formData, setFormData] = useState({
     make: "",
     model: "",
@@ -17,6 +18,20 @@ const CarListing = () => {
     transmission: "",
     image_file: "",
   });
+  const baseUrl = "http://localhost:8000";
+  useEffect(() => {
+    fetchCarData();
+  }, [formData]);
+
+  const fetchCarData = async () => {
+    //fetch the car data from the backend
+    await client
+      .get("/carlisting")
+      .then((res) => {
+        setCarData(res.data);
+      })
+      .catch((error) => console.error(error));
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -66,7 +81,7 @@ const CarListing = () => {
         .then((res) => {
           console.log(res.data);
           handleToast("Successfully added");
-          setIsError(false)
+          setIsError(false);
           setFormData({
             make: "",
             model: "",
@@ -95,21 +110,73 @@ const CarListing = () => {
 
   return (
     <>
-      <div className="flex justify-center h-screen pt-20 mx-auto text-white md:w-10/12">
-        <div className="md:mx-10 w-[700px] mt-20 2xl:w-[800px] 2xl:mt-28 2xl:text-lg">
+    <div className="flex justify-end pb-10 h-full">
+      <div className="flex justify-center pt-20 text-white md:w-10/12 overflow-y-scroll">
+        <div className="relative w-10/12 m-auto mt-20 2xl:text-lg">
           <div className="mb-4 text-lg 2xl:text-xl">Car Listing</div>
           <button
             onClick={openModal}
-            className="px-4 py-2 border rounded-sm border-yellow text-yellow hover:text-white hover:border-white"
+            className="px-4 py-2 text-sm border rounded-sm border-yellow text-yellow hover:text-white hover:border-white"
           >
             + Add Listing
           </button>
+          <div className="relative flex p-3 mt-3 text-sm border flex-col">
+          <div className="text-lg mb-3">My Listing</div>
+            <table className="w-full overflow-hidden text-left rtl:text-right">
+              <thead className="border-b-2 border-yellow">
+                <tr>
+                  <th scope="col" className="px-2 py-2">
+                    Image
+                  </th>
+                  <th scope="col" className="px-2 py-2">
+                    Make
+                  </th>
+                  <th scope="col" className="px-2 py-2">
+                    Model
+                  </th>
+                  <th scope="col" className="px-2 py-2">
+                    Model Year
+                  </th>
+                  <th scope="col" className="px-2 py-2">
+                    Daily Rate
+                  </th>
+                  <th scope="col" className="px-2 py-2">
+                    Transmission
+                  </th>
+                  <th scope="col" className="px-2 py-2">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {carData.map((car, index) => {
+                  return (
+                    <tr key={index} className="odd:bg-black even:bg-[#212121]">
+                      <td className="w-16 h-16">
+                        <img
+                        src={baseUrl + car.image_file}
+                        alt=""
+                        className="object-cover w-16 h-16"
+                      />
+                      </td>
+                      <td className="px-2 py-2">{car.make}</td>
+                      <td className="px-2 py-2">{car.model}</td>
+                      <td className="px-2 py-2">{car.model_year}</td>
+                      <td className="px-2 py-2">{car.daily_rate}</td>
+                      <td className="px-2 py-2">{car.transmission}</td>
+                      <td className="px-2 py-2 text-yellow">Edit</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {isOpen && (
         <div className="absolute top-0 z-20 flex items-center justify-center w-screen h-screen bg-opacity-25 bg-slate-600">
           <div ref={ref} className="relative p-6 bg-black rounded-md">
-            <div className="text-white text-lg mb-4">Create a Listing</div>
+            <div className="mb-4 text-lg text-white">Create a Listing</div>
             <div
               className={`text-center text-sm py-1 rounded-sm ${
                 isError
@@ -133,7 +200,7 @@ const CarListing = () => {
                     className="object-cover h-[280px] w-[200px] 2xl:w-[230px] rounded-md hover:object-contain"
                   />
                 ) : (
-                  <div className="text-sm flex flex-col items-center justify-center gap-y-2">
+                  <div className="flex flex-col items-center justify-center text-sm gap-y-2">
                     <span>
                       <FontAwesomeIcon icon={faUpload} size="xl" />
                     </span>
@@ -161,7 +228,7 @@ const CarListing = () => {
                     onChange={handleChange}
                     required
                     placeholder="e.g., Toyota, Ford, Chevrolet"
-                    className="px-2 py-1 text-sm text-white placeholder-gray-500 border-none bg-black-2 focus:outline-none placeholder:text-sm required:border-red-700"    
+                    className="px-2 py-1 text-sm text-white placeholder-gray-500 border-none bg-black-2 focus:outline-none placeholder:text-sm required:border-red-700"
                   />
                 </div>
                 <div className="flex items-center justify-between gap-2">
@@ -219,6 +286,7 @@ const CarListing = () => {
                     name="transmission"
                     value="automatic"
                     onChange={handleChange}
+                    required
                   />
                   <label htmlFor="transmission" className="text-sm text-white">
                     Manual
@@ -229,6 +297,7 @@ const CarListing = () => {
                     name="transmission"
                     value="manual"
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="text-center">
@@ -244,6 +313,7 @@ const CarListing = () => {
           </div>
         </div>
       )}
+      </div>
     </>
   );
 };

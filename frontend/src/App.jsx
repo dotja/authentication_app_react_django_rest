@@ -31,7 +31,7 @@ function App() {
 
 
   return (
-    <div className='relative min-h-screen bg-black-2'>
+    <div className='h-screen bg-black-2'>
       <UserContext.Provider value={[currentUser, setCurrentUser]}>
         <Routes>
           <Route path='/' element={<Navbar/>}>
