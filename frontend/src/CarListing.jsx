@@ -110,7 +110,7 @@ const CarListing = () => {
 
   return (
     <>
-    <div className="flex justify-end pb-10 h-full">
+    <div className="flex justify-end pb-10 h-screen">
       <div className="flex justify-center pt-20 text-white md:w-10/12 overflow-y-scroll">
         <div className="relative w-10/12 m-auto mt-20 2xl:text-lg">
           <div className="mb-4 text-lg 2xl:text-xl">Car Listing</div>

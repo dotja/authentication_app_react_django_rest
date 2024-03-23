@@ -10,9 +10,6 @@ const ProfileSettings = () => {
             Manage Profile
           </div>
         </Link>
-        <div className="px-3 py-2 hover:bg-black-2 hover:text-yellow">
-          Manage Account
-        </div>
         <Link to="/account-settings/car-listing">
           <div className="px-3 py-2 hover:bg-black-2 hover:text-yellow">
             Car Listing
