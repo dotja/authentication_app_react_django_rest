@@ -97,3 +97,16 @@ class CarListingView(APIView):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateCarListingView(APIView):
+	def put(self, request, pk):
+		try:
+			car_listings = CarListing.objects.get(pk=pk)
+		except CarListing.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+		serializer = CarListingSerializer(car_listings, data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response (serializer.data)
+		return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

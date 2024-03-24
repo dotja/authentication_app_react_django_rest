@@ -53,7 +53,7 @@ const Cars = () => {
 
   return (
     <>
-      <div className="relative h-full bg-black-2 flex flex-col items-center pt-20 pb-20 mx-auto text-white lg:w-10/12">
+      <div className="relative flex flex-col items-center pt-20 pb-20 mx-auto text-white lg:w-10/12">
         <span className="relative h-[40px] w-[600px] mt-4">
           <input
             onChange={(e) => setSearch(e.target.value)}
