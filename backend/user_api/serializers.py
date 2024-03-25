@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
-
+from django.core.exceptions import ValidationError
+from . models import CarListing
 UserModel = get_user_model()
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -18,12 +19,32 @@ class UserLoginSerializer(serializers.Serializer):
 	password = serializers.CharField()
 	##
 	def check_user(self, clean_data):
-		user = authenticate(username=clean_data['email'], password=clean_data['password'])
+		email = clean_data['email']
+		password = clean_data['password']
+		print(email)
+		print(password)
+		user = authenticate(username=email, password=password)
+		print('Authenticated:', user)
 		if not user:
-			raise ValidationError('user not found')
+			raise ValidationError('User does not exist.')
+			
+		if not user.check_password(password):
+			raise ValidationError('Incorrect password. Please try again.')
 		return user
 
 class UserSerializer(serializers.ModelSerializer):
+
 	class Meta:
 		model = UserModel
-		fields = ('email', 'username')
+		fields = ('email', 'username', 'firstname', 'lastname', 'contact', 'user_profile')
+
+		def update(self, instance, validated_data):
+			user_profile_data = validated_data.pop('user_profile', None)
+			if user_profile_data is not None:
+				instance.user_profile = user_profile_data
+			return super().update(instance, validated_data)
+
+class CarListingSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = CarListing
+		fields = ('make', 'model', 'model_year', 'daily_rate', 'transmission', 'image_file')
